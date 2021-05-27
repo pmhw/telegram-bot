@@ -1,0 +1,134 @@
+<!--智能回复-->
+{include file="public/header"}
+<div class="content">
+<div class="page-inner">
+<div class="row">
+<div class="col-md-12">
+<div class="card">
+	<div class="card-header">
+		<h4 class="card-title">智能回复<sub>&nbsp;&nbsp;(根据关键词进行回复)</sub></h4>
+		
+		<br>
+		 <a style="color:red;margin-left:5px;">示例图：</a>
+	    <img src="__STATIC__/img/zhineng.jpg" width="320px">
+	</div>
+	<div class="form-group">
+	    <form>
+	    <div style="width:180px;">
+		<label for="defaultSelect">选择类型</label>
+		<select class="form-control form-control" id="gid">
+		    {volist name="data.api_gid" id="api_gid"}
+			<option value="{$api_gid.gid}">{$api_gid.zh_name}</option>
+			{/volist}
+		</select>
+		</div>
+		<br>
+		
+    	<label for="successInput">关键词</label>
+    	<input type="text" id="keywords" value="" class="form-control">		
+		
+        <br>
+		<label for="comment">回复内容</label>
+		<textarea class="form-control" id="text" rows="5"></textarea>
+        </form>
+        		<button type="submit" onclick="add_api()" class="btn btn-success">保存</button>
+	</div>
+
+
+
+	
+</div>
+</div>
+</div>
+</div>
+</div>
+
+{include file="public/footer"}
+
+<script>
+
+
+    function IsNull(str) {
+    	return (Trim(str) == "") ? false : true;
+    }
+    function Trim(str) {
+    	return str.replace(/(^\s*)|(\s*$)/g, "");
+    }
+    function replaceHTML(str){
+      str = str.replace(/<[^>].*?>/g,"");
+      str = str.replace(/&nbsp;/g,"");
+      return str;
+    }
+
+    function add_api(){
+        
+        var gid = $('#gid').val();
+        var keywords = $('#keywords').val();
+        var text = $.trim($('#text').val());
+        
+        if(!keywords){
+               $.notify({
+                	icon: 'flaticon-alarm-1',
+                	title: '操作提示',
+                	message: '请填写关键词',
+                },{
+                	type: 'info',
+                	placement: {
+                		from: "bottom",
+                		align: "right"
+                	},
+                	time: 1000,
+                });
+              return;
+        }
+        
+        if(!IsNull(replaceHTML(text))){
+               $.notify({
+                	icon: 'flaticon-alarm-1',
+                	title: '操作提示',
+                	message: '请填写您要回复的内容',
+                },{
+                	type: 'info',
+                	placement: {
+                		from: "bottom",
+                		align: "right"
+                	},
+                	time: 1000,
+                });
+              return;
+        }
+        
+        $.post('/add_api',{'gid':gid,'keywords':keywords,'text':text},function(res){
+            if(res.code>0){
+                $.notify({
+                	icon: 'flaticon-alarm-1',
+                	title: '操作提示',
+                	message: res.msg,
+                },{
+                	type: 'info',
+                	placement: {
+                		from: "bottom",
+                		align: "right"
+                	},
+                	time: 1000,
+                });
+            }else{
+
+               $.notify({
+                	icon: 'flaticon-alarm-1',
+                	title: '操作提示',
+                	message: res.msg,
+                },{
+                	type: 'info',
+                	placement: {
+                		from: "bottom",
+                		align: "right"
+                	},
+                	time: 1000,
+                });
+                setTimeout(function(){location.reload()},800);
+            }
+        },'json');
+        
+    }
+</script>

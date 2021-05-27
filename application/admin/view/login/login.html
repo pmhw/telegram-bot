@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+
+    <head>
+
+        <meta charset="utf-8">
+        <title>telegram bot-Login</title>
+        <link rel="icon" href="https://static.easyicon.net/preview/114/1145402.gif"/>
+        <meta name="viewport" content="width=device-width, initial-scale=0.8">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        
+        <!-- CSS -->
+        <link rel="stylesheet" href="__STATIC__/login/css/reset.css">
+        <link rel="stylesheet" href="__STATIC__/login/css/supersized.css">
+        <link rel="stylesheet" href="__STATIC__/login/css/style.css">
+        
+        <!--layuijavascript-->
+        <script src="https://www.layuicdn.com/layui/layui.js"></script>
+        <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+        <!--[if lt IE 9]>
+            <script src="__STATIC__/js/html5.js"></script>
+        <![endif]-->
+    </head>
+
+    <body>
+
+        <div class="page-container">
+            <h1><img src="https://static.easyicon.net/preview/114/1145402.gif" width="30px">&nbsp;Telegram bot 登录</h1>
+            <form>
+                <input type="text" name="username" id="name" class="username" placeholder="管理账号">
+                <input type="password" name="password" id="password" class="password" placeholder="密码">
+                <input type="Captcha" class="Captcha" name="verifycode" id="verifycode" placeholder="验证码">
+				<img src="{:captcha_src()}" id="img" onclick="reloadImg()" style="padding:20px;"/>
+            </form>
+            <button type="submit" class="submit_button" onclick="dulogin()">登录</button>
+           
+        </div>
+        
+        <script>
+          layui.use(['layer','form'],function(){
+        	form = layui.form;
+        	layer = layui.layer;
+        	$ = layui.jquery;
+			// 回车登录
+			$('input').keydown(function(e){
+				if(e.keyCode == 13){
+					dulogin();
+				}
+			});
+		});
+        //验证码更换
+		function reloadImg(){
+		    $('#img').attr('src','{:captcha_src()}?rand='+Math.random());
+		}        
+        //登录按钮
+            function dulogin(){
+                var name = $.trim($('#name').val());
+                var password = $.trim($('#password').val());
+                var vfe = $.trim($('#verifycode').val());
+                
+                if(name==''){
+                    layer.msg('请输入管理账号');
+                    return;
+                }
+                
+                if(password==''){
+                    layer.msg('请输入密码');
+                    return;
+                }
+                
+                if(vfe==''){
+                    layer.msg('请输入验证码');
+                    return;
+                }
+                //传递表单到控制器
+                $.post('/dulogin',{'name':name,'password':password,'vfe':vfe},function(res){
+                    if(res.code>0){
+                        layer.msg(res.msg);
+                        reloadImg();
+                    }else{
+	                layer.msg(res.msg);
+	                setTimeout(function(){window.location.href = '/setting_bot'},1000);
+	            }
+                },'json');
+                
+            }
+        </script>
+		
+        <!-- Javascript -->
+        <script src="__STATIC__/login/js/jquery-1.8.2.min.js" ></script>
+        <script src="__STATIC__/login/js/supersized.3.2.7.min.js" ></script>
+        <script type="text/Javascript">
+            jQuery(function($){
+
+            $.supersized({
+        
+                // 功能
+                slide_interval     : 4000,    // 转换之间的长度
+                transition         : 1,    // 0 - 无，1 - 淡入淡出，2 - 滑动顶，3 - 滑动向右，4 - 滑底，5 - 滑块向左，6 - 旋转木马右键，7 - 左旋转木马
+                transition_speed   : 1000,    // 转型速度
+                performance        : 1,    // 0 - 正常，1 - 混合速度/质量，2 - 更优的图像质量，三优的转换速度//（仅适用于火狐/ IE浏览器，而不是Webkit的）
+        
+                // 大小和位置
+                min_width          : 0,    // 最小允许宽度（以像素为单位）
+                min_height         : 0,    // 最小允许高度（以像素为单位）
+                vertical_center    : 1,    // 垂直居中背景
+                horizontal_center  : 1,    // 水平中心的背景
+                fit_always         : 0,    // 图像绝不会超过浏览器的宽度或高度（忽略分钟。尺寸）
+                fit_portrait       : 1,    // 纵向图像将不超过浏览器高度
+                fit_landscape      : 0,    // 景观的图像将不超过宽度的浏览器
+        
+                // 组件
+                slide_links        : 'blank',    // 个别环节为每张幻灯片（选项：假的，'民'，'名'，'空'）
+                slides             : [    // 幻灯片影像
+                                         {image : '__STATIC__/login/img/1.jpg'},
+                                         {image : '__STATIC__/login/img/2.jpg'},
+                                         {image : '__STATIC__/login/img/3.jpg'}
+                               ]
+        
+            });
+        
+        });
+
+        </script>
+        
+        <script src="__STATIC__/login/js/scripts.js" ></script>
+        
+        
+
+    </body>
+</html>

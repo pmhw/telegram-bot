@@ -1,0 +1,149 @@
+<!--添加分组界面-->
+{include file="public/header" /}
+
+<div class="content">
+<div class="page-inner">
+<div class="row">
+<div class="col-md-12">
+<div class="card">
+    
+	<div class="card-header">
+		<h4 class="card-title">商品分组<sub></sub></h4>
+	</div>
+	<div class="form-group">
+	    <form>
+	        
+
+		<label for="defaultSelect">分组名称</label>
+    	<input type="text" id="name" value="" placeholder="填写分组名称" class="form-control">
+    	
+        </form>
+        <br>
+        <button type="submit" onclick="add_shangpingid()" class="btn btn-success">保存</button>
+	</div>
+	<div style="height:30px;"></div>
+		<div class="card-header">
+			<div class="card-title">分组列表</div>
+		</div>
+		<div class="card-body">
+
+			
+			<table class="table mt-3">
+				<thead>
+					<tr>
+						<th scope="col">id</th>
+						<th scope="col">分组名称</th>
+						<th scope="col">添加时间</th>
+						<th>分组链接</th>
+						<th scope="col">操作</th>
+					</tr>
+				</thead>
+				<tbody>
+				    {volist name="data.shangpin_gid" id="vo" empty="暂无分组信息"}
+					<tr>
+						<td>{$vo.gid}</td>
+						<td>{$vo.name}</td>
+						<td>{:date('Y-m-d H:i:s',$vo.add_time)}</td>
+						<td><a href="https://{$data.url}/index/gid/{$vo.gid}" target="_blank">https://{$data.url}/index/gid/{$vo.gid}</a></td>
+						<td><button class="btn btn-danger btn-xs" onclick="delete_shangpingid({$vo.gid})">删除</button></td>
+					</tr>
+                    {/volist}
+				</tbody>
+			</table>
+		</div>
+
+	
+</div>
+</div>
+</div>
+</div>
+</div>
+
+{include file="public/footer" /}
+
+<script>
+    function add_shangpingid(){
+        var name = $('#name').val();
+        if(!name){
+            $.notify({
+                	icon: 'flaticon-alarm-1',
+                	title: '操作提示',
+                	message: '请填写分组名称!',
+                },{
+                	type: 'info',
+                	placement: {
+                		from: "bottom",
+                		align: "right"
+                	},
+                	time: 1000,
+                });
+              return;  
+        }
+        
+        $.post('/add_shangpingid',{'name':name},function(res){
+          if(res.code>0){
+            $.notify({
+                	icon: 'flaticon-alarm-1',
+                	title: '操作提示',
+                	message: res.msg,
+                },{
+                	type: 'info',
+                	placement: {
+                		from: "bottom",
+                		align: "right"
+                	},
+                	time: 1000,
+                });              
+          }else{
+                $.notify({
+                	icon: 'flaticon-alarm-1',
+                	title: '操作提示',
+                	message: res.msg,
+                },{
+                	type: 'info',
+                	placement: {
+                		from: "bottom",
+                		align: "right"
+                	},
+                	time: 1000,
+                }); 
+                setTimeout(function(){location.reload()},3000);
+          }
+        },'json');
+    }
+    
+    //删除
+     function delete_shangpingid(gid){
+        $.get('/delete_shangpingid',{'gid':gid},function(res){
+              if(res.code>0){
+                $.notify({
+                	icon: 'flaticon-alarm-1',
+                	title: '操作提示',
+                	message: res.msg,
+                },{
+                	type: 'info',
+                	placement: {
+                		from: "bottom",
+                		align: "right"
+                	},
+                	time: 1000,
+                });
+            }else{
+
+               $.notify({
+                	icon: 'flaticon-alarm-1',
+                	title: '操作提示',
+                	message: res.msg,
+                },{
+                	type: 'info',
+                	placement: {
+                		from: "bottom",
+                		align: "right"
+                	},
+                	time: 1000,
+                });
+                setTimeout(function(){location.reload()},800);
+            }
+        },'json')
+    }
+</script>
