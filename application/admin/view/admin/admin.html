@@ -1,0 +1,207 @@
+<!--后台管理主页-->
+{include file="public/header"}
+
+<div class="content">
+	<div class="page-inner">
+		<div class="mt-2 mb-4">
+			<h2 class="text-white pb-2">机器人控制室, Bot!</h2>
+			<h5 class="text-white op-7 mb-4">可视化操控您的Telegram机器人.</h5>
+		</div>
+
+		<div class="row">
+		    
+		    		<div class="col-md-4">
+							<div class="card card-dark bg-primary-gradient">
+								<div class="card-body pb-0">
+									<div class="h1 fw-bold float-right">+5%</div>
+									<h2 class="mb-2">{$data.message_count1}&nbsp;条</h2>
+									<p>群消息</p>
+									<div class="pull-in sparkline-fix chart-as-background">
+										<div id="lineChart"><canvas width="327" height="70" style="display: inline-block; width: 327px; height: 70px; vertical-align: top;"></canvas></div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="card card-dark bg-secondary-gradient">
+								<div class="card-body pb-0">
+									<div class="h1 fw-bold float-right">-3%</div>
+									<h2 class="mb-2">{$data.message_count}&nbsp;条</h2>
+									<p>私聊消息</p>
+									<div class="pull-in sparkline-fix chart-as-background">
+										<div id="lineChart2"><canvas width="327" height="70" style="display: inline-block; width: 327px; height: 70px; vertical-align: top;"></canvas></div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="card card-dark bg-success2">
+								<div class="card-body pb-0">
+									<div class="h1 fw-bold float-right">+7%</div>
+									<h2 class="mb-2">{$data.api_count}&nbsp;个</h2>
+									<p>回复配置</p>
+									<div class="pull-in sparkline-fix chart-as-background">
+										<div id="lineChart3"><canvas width="327" height="70" style="display: inline-block; width: 327px; height: 70px; vertical-align: top;"></canvas></div>
+									</div>
+								</div>
+							</div>
+						</div>
+		    
+
+						<div class="col-md-4">
+							<div class="card">
+								<div class="card-header">
+									<div class="card-title">服务器信息</div>
+								</div>
+								<div class="card-body pb-0">
+									<div class="d-flex">
+										<div class="flex-1 pt-1 ml-2">
+											<h6 class="fw-bold mb-1">操作系统：{$info.czxt}</h6>
+										</div>
+									</div>
+									<div class="separator-dashed"></div>
+									<div class="d-flex">
+										<div class="flex-1 pt-1 ml-2">
+											<h6 class="fw-bold mb-1">PHP运行方式：{$info.phpyxfs}</h6>
+										</div>
+									</div>
+									<div class="separator-dashed"></div>
+									<div class="d-flex">
+										<div class="flex-1 pt-1 ml-2">
+											<h6 class="fw-bold mb-1">上传限制：{$info.scfj}</h6>
+										</div>
+									</div>
+									<div class="separator-dashed"></div>
+										<div class="d-flex">
+										<div class="flex-1 pt-1 ml-2">
+											<h6 class="fw-bold mb-1">执行时间限制：{$info.jxsj}</h6>
+										</div>
+									</div>
+									<div class="separator-dashed"></div>
+									<div class="d-flex">
+										<div class="flex-1 pt-1 ml-2">
+											<h6 class="fw-bold mb-1">可用空间：{$info.sykj}</h6>
+										</div>
+									</div>
+									<div class="separator-dashed"></div>
+									<div class="d-flex">
+										<div class="flex-1 pt-1 ml-2">
+											<h6 class="fw-bold mb-1">服务器IP：{$info.ip}</h6>
+										</div>
+									</div>
+									<div class="separator-dashed"></div>
+									<div class="d-flex">
+										<div class="flex-1 pt-1 ml-2">
+											<h6 class="fw-bold mb-1">服务器时间：{$info.fwq_time}</h6>
+										</div>
+									</div>
+									<div class="separator-dashed"></div>
+
+								</div>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="card">
+								<div class="card-body">
+									<div class="card-title fw-mediumbold">WebhookInfo(网络连接信息)</div>
+									<div class="card-list">
+									    
+										<div class="item-list">
+											<div class="info-user ml-3">
+												<div class="username">webhook状态</div>
+												<div class="status">{$data.ok==true?'运行中':'已关闭'}</div>
+											</div>
+											<i style="color:{$data.ok==true?'#00FF00':'#FF3030'}" class="{$data.ok==true?'fas fa-check':'fas fa-ban'}"></i>
+										</div>
+										
+										<div class="item-list">
+											<div class="info-user ml-3">
+												<div class="username">webhook等待处理消息数</div>
+												<div class="status">{$data.pending_update_count|default="未获取到"} 条消息</div>
+											</div>
+											<i style="color:{$data.ok==true?'#00FF00':'#FF3030'}" class="{$data.ok==true?'fas fa-check':'fas fa-ban'}"></i>
+										</div>										
+
+										<div class="item-list">
+											<div class="info-user ml-3">
+												<div class="username">webhook最后出错时间</div>
+												<div class="status">{:date('Y-m-d H:i:s',$data.last_error_date)}</div>
+											</div>
+											<i style="color:{$data.ok==true?'#00FF00':'#FF3030'}" class="{$data.ok==true?'fas fa-check':'fas fa-ban'}"></i>
+										</div>												
+
+										<div class="item-list">
+											<div class="info-user ml-3">
+												<div class="username">webhook最后报错信息</div>
+												<div class="status">{$data.last_error_message|default="获取失败"}</div>
+											</div>
+											<i style="color:{$data.ok==true?'#00FF00':'#FF3030'}" class="{$data.ok==true?'fas fa-check':'fas fa-ban'}"></i>
+										</div>
+
+										<div class="item-list">
+											<div class="info-user ml-3">
+												<div class="username">webhook最大链接数</div>
+												<div class="status">{$data.max_connections|default="获取失败"}</div>
+											</div>
+											<i style="color:{$data.ok==true?'#00FF00':'#FF3030'}" class="{$data.ok==true?'fas fa-check':'fas fa-ban'}"></i>
+										</div>										
+										
+										
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="card card-primary bg-primary-gradient">
+								<div class="card-body">
+									<h4 class="mt-3 b-b1 pb-2 mb-4 fw-bold">机器人信息卡</h4>
+									<h4 class="mt-3 b-b1 pb-2 mb-5 fw-bold">机器人组名：{$data.username|default="您还未配置机器人"}</h4>
+									<div id="activeUsersChart"></div>
+									<h4 class="mt-5 pb-3 mb-0 fw-bold">机器人姓名：{$data.first_name|default="您还未配置机器人"}</h4>
+									<ul class="list-unstyled">
+										<li class="d-flex justify-content-between pb-1 pt-1"><small>是否能加入群组</small> <span>{$data.can_join_groups==true?'是':'否'}</span></li>
+										<li class="d-flex justify-content-between pb-1 pt-1"><small>是否能读取所有群组消息</small> <span>{$data.can_read_all_group_messages==true?'是':'否'}</span></li>
+										<li class="d-flex justify-content-between pb-1 pt-1"><small>是否支持内联查询</small> <span>{$data.supports_inline_queries==true?'是':'否'}</span></li>
+										<li class="d-flex justify-content-between pb-1 pt-1"><small>官方配置机器人</small> <span><a href="tg://resolve?domain=BotFather">联系BotFather</a></span></li>
+									</ul>
+								</div>
+							</div>
+						</div>
+
+		</div>
+	</div>
+</div>
+{include file="public/footer"}
+
+<script>
+    //提醒
+    var token='{$admin.token}';
+    if(!token){
+        $.notify({
+        	icon: 'flaticon-alarm-1',
+        	title: '温馨提示',
+        	message: '检测到您还没有设置机器人Token 密钥，请<a href="setting_bot">点击此处</a>设置您的密钥！',
+        },{
+        	type: 'info',
+        	placement: {
+        		from: "bottom",
+        		align: "right"
+        	},
+        	time: 1000,
+        });
+    }
+    
+    		//Notify
+        $.notify({
+        	icon: 'flaticon-alarm-1',
+        	title: '您好，欢迎您！',
+        	message: '欢迎使用Telegram管理系统',
+        },{
+        	type: 'info',
+        	placement: {
+        		from: "bottom",
+        		align: "right"
+        	},
+        	time: 1000,
+        });
+</script>

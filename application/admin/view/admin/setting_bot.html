@@ -1,0 +1,147 @@
+<!--机器人配置界面-->
+{include file="public/header"}
+
+<div class="content">
+<div class="page-inner">
+<div class="row">
+	<div class="col-md-12">
+		<div class="card">
+			<div class="card-header">
+				<h4 class="card-title">机器人的创建</h4>
+			</div>
+            <div class="card-body">
+			<div class="row">
+				<div class="col-5 col-md-4">
+					<div class="nav flex-column nav-pills nav-secondary nav-pills-no-bd" id="v-pills-tab-without-border" role="tablist" aria-orientation="vertical">
+						<a class="nav-link active" id="v-pills-home-tab-nobd" data-toggle="pill" href="#1" role="tab" aria-controls="1" aria-selected="true">1.创建Bot</a>
+						<a class="nav-link" id="v-pills-profile-tab-nobd" data-toggle="pill" href="#2" role="tab" aria-controls="2" aria-selected="false">2.保存Token</a>
+						<a class="nav-link" id="v-pills-messages-tab-nobd" data-toggle="pill" href="#3" role="tab" aria-controls="3" aria-selected="false">3.设置回调</a>
+					</div>
+				</div>
+				<div class="col-7 col-md-8">
+					<div class="tab-content" id="v-pills-without-border-tabContent">
+						<div class="tab-pane fade show active" id="1" role="tabpanel" aria-labelledby="v-pills-home-tab-nobd">
+							<p>访问<a href="https://telegram.me/botfather" target="_blank">https://telegram.me/botfather</a>或Telegram里<a href="tg://resolve?domain=BotFather">联系botfather</a></p>
+							<p>它会提示你用telegram打开。然后你就打开了botfarther的聊天对话框。输入:<br><a style="color:red;">/newbot</a><br>回车发送，botfarther会反馈
+Alright, a new bot. How are we going to call it? Please choose a name for your bot.</p>
+							<p >输入你要创建的bot名字。例如：<a style="color:red;">david_bot</a>,回车发送</p>
+							<p>它会反馈
+Good. Now let's choose a username for your bot. It must end in bot. Like this, for example: TetrisBot or tetris_bot.</p>
+                            <p>我再输入 例如：<a style="color:red;">DavidBot</a>。这是这个机器人的名字。</p>
+                            <p>它会反馈
+Sorry, this username is already taken. Please try something different.</p>
+                            <p>这名字已经被用了。我们换一个即可</p>
+                            <p>当反馈
+BotFather, [16.02.17 14:23]
+Done! Congratulations on your new bot. You will find it at t.me/Gz_David_Bot. You can now add a description, about section and profile picture for your bot, see /help for a list of commands. By the way, when you've finished creating your cool bot, ping our Bot Support if you want a better username for it. Just make sure the bot is fully operational before you do this.
+ 
+Use this token to access the HTTP API:
+<a style="color:red;">xxx:xxx（此处为您的Token，复制它）</a>时为正常，如果更换密钥请重新执行2、3步骤即可！</p>
+
+
+						</div>
+						<div class="tab-pane fade" id="2" role="tabpanel" aria-labelledby="v-pills-profile-tab-nobd">
+			<div class="form-group has-success">
+        	    <form>
+        		<label for="successInput">Telegram Token<sub>&nbsp;&nbsp;&nbsp;通过BotFather拿到的密钥<a style="color:red;">请勿随意修改</a></sub></label>
+        		<input type="text" id="token" value="{$data.admin.token|default='此处填写您的Token'}" class="form-control">
+        		</form>
+        		<br>
+        		
+        		更换token前请先点此处：<a href="https://api.telegram.org/bot{$data.admin.token|default='此处填写您的Token'}/deleteWebhook" target="_blank">删除WebHook </a>删除完成后再点击保存
+        		<br>
+        		<button type="submit" onclick="add_token()" class="btn btn-primary">{$admin.token?'更新Token':'保存Token'}</button>
+        	</div>
+						</div>
+						<div class="tab-pane fade" id="3" role="tabpanel" aria-labelledby="v-pills-messages-tab-nobd">
+						    <p><a style="color:red;">点击前请先打开VPN,确保域名为Https开头（有SLL证书）</a></p>
+							<p><a href="https://api.telegram.org/bot{$data.admin.token|default='请先去设置Token'}/getUpdates" target="_blank">A.测试消息</a></p>
+
+							<p><a href="https://api.telegram.org/bot{$data.admin.token|default='请先去设置Token'}/setWebhook?url={$data.url}/api" target="_blank">B.注册webhook</a></p>
+							
+							<p>点击访问A、B，完成配置</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			</div><!--card-body end-->
+								
+
+        </div>
+    </div>
+</div>
+</div>
+</div>
+
+{include file="public/footer"}
+<script>
+    //提醒
+    var token='{$admin.token}';
+    if(!token){
+        $.notify({
+        	icon: 'flaticon-alarm-1',
+        	title: '操作提示',
+        	message: '请按照先后顺序操作，完成后，机器人正常工作！',
+        },{
+        	type: 'info',
+        	placement: {
+        		from: "bottom",
+        		align: "right"
+        	},
+        	time: 1000,
+        });
+    }
+    
+    function add_token(){
+        var token = $('#token').val();
+        if(!token){
+          $.notify({
+        	icon: 'flaticon-alarm-1',
+        	title: '提醒',
+        	message: '请先填写您的Token！',
+        },{
+        	type: 'info',
+        	placement: {
+        		from: "bottom",
+        		align: "right"
+        	},
+        	time: 1000,
+        });
+            return;
+        }
+        $.post('/add_token',{'token':token},function(res){
+            if(res.code>0){
+
+                $.notify({
+                	icon: 'flaticon-alarm-1',
+                	title: '提醒',
+                	message: res.msg,
+                },{
+                	type: 'info',
+                	placement: {
+                		from: "bottom",
+                		align: "right"
+                	},
+                	time: 1000,
+                });
+            }else{
+                $.notify({
+                	icon: 'flaticon-alarm-1',
+                	title: '提醒',
+                	message: res.msg,
+                },{
+                	type: 'info',
+                	placement: {
+                		from: "bottom",
+                		align: "right"
+                	},
+                	time: 1000,
+                });
+                setTimeout(function(){location.reload()},3000);
+            }
+        },'json');
+    }
+</script>
+<script>
+
+</script>

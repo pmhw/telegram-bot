@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{$data.shangpin_gid.name}</title>
+
+<link rel="stylesheet" type="text/css" href="__STATIC__/index/demo.css">
+<link rel="stylesheet" href="__STATIC__/index/main.css">
+<link rel="stylesheet" href="__STATIC__/index/sortable.min.css">
+<link rel="stylesheet" type="text/css" href="https://www.layuicdn.com/layui/css/layui.css" />
+
+<script type="text/javascript" src="__STATIC__/index/sortable.min.js"></script>
+
+</head>
+<body>
+
+<main class="sortable">
+<div class="container">
+  <div class="wrapper">
+	<!--<ul class="sortable__nav nav">
+	  <li>
+		<a data-sjslink="all" class="nav__link">
+		  所有
+		</a>
+	  </li>
+	  <li>
+		<a data-sjslink="flatty" class="nav__link">
+		  扁平化
+		</a>
+	  </li>
+	  <li>
+		<a data-sjslink="funny" class="nav__link">
+		  创意
+		</a>
+	  </li>
+	</ul>-->
+	<div id="sortable" class="sjs-default">
+	  
+	  {volist name="data.shangpin" id="shangpin" emtpy="暂无数据}
+	  <div data-sjsel="flatty" style="padding-top:60px;">
+		<div class="card">
+		  
+		  <div class="layui-carousel" id="test{$shangpin.id}">
+              <div carousel-item>
+                <div><img class="card__picture" src="{$shangpin.fengmian_img}" alt=""></div>
+                 <div><video class="card__picture" controls>
+                     <source src="/fengmian_img/20210110/20ffb73665abb67234a226fe7b80ee1b.mp4" type="video/mp4">
+                </video></div>
+              </div>
+         </div>
+		  <div class="card-infos">
+			<h2 class="card__title">{$shangpin.title}</h2>
+			<p class="card__text">
+            {$shangpin.content}
+			</p>
+			<br><a class="layui-btn layui-btn-normal" href="tg://resolve?domain={$data.admin.tg_name}">预约</a>
+		  </div>
+		</div>
+	  </div>
+      {/volist}
+
+	</div>
+  </div>
+</div>
+</main>
+
+<script type="text/javascript">
+document.querySelector('#sortable').sortablejs()
+</script>
+<script src="https://www.layuicdn.com/layui/layui.js"></script>
+    <!--您的Layui代码start-->
+    <script type="text/javascript">
+    layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'element'], function() {
+      var laydate = layui.laydate //日期
+      ,laypage = layui.laypage //分页
+      ,layer = layui.layer //弹层
+      ,table = layui.table //表格
+      ,carousel = layui.carousel //轮播
+      ,upload = layui.upload //上传
+      ,element = layui.element; //元素操作 等等...
+        
+        {volist name='data.shangpin' id='vo'}
+          //建造实例
+          carousel.render({
+            elem: '#test{$vo.id}'
+            ,width: '100%' //设置容器宽度
+            ,arrow: 'always' //始终显示箭头
+            //,anim: 'updown' //切换动画方式
+          });
+        {/volist}
+
+    });
+    </script>
+</body>
+</html>

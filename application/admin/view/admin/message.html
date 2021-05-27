@@ -1,0 +1,37 @@
+<!--消息信息-->
+{include file="public/header"}
+
+<div class="content">
+	<div class="page-inner">
+
+		<div class="row">
+		    
+			<div class="col-md-12">
+				<div class="card">
+					<div class="card-header">
+						<div class="card-title">消息列表</div>
+					</div>
+					<div class="card-body">
+					<ul class="0-legend html-legend">
+					    <li><span style="background-color:#fdaf4b"></span>群内消息</li>
+					    <li><span style="background-color:#177dff"></span>私聊消息</li>
+					</ul>
+						<ol class="activity-feed">
+                            {volist name="data.tg_message" id="vo" }
+                            <!--feed-item-warning-->
+							<li class="feed-item {$vo.chat_id>0?'feed-item-info':'feed-item-warning'}">
+								<time class="date" style="color:#fff;" datetime="9-23">{:date('Y/m/d H:i',$vo.time)}</time>
+								<span class="text">{$vo.text} <a href="">@{$vo.name}</a></span>
+							</li>
+                            {/volist}
+						</ol>
+						{$data.tg_message->render()}
+					</div>
+
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>
+{include file="public/footer"}
