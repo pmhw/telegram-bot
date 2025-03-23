@@ -6,7 +6,7 @@ TG机器人接定制，web端、pc端（授权验机码）等等 联系qq：2430
 
 扫码备注 程序定制
 <br>
-<img src="https://github.com/user-attachments/assets/b8c89878-e0a5-44b1-a554-835d86b84801" alt="My Image" style="width: 64px; height: 200px;">
+<img src="https://github.com/user-attachments/assets/b8c89878-e0a5-44b1-a554-835d86b84801" alt="My Image" style="width: 100px; height: 200px;">
 
 
 图片展示
