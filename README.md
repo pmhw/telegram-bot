@@ -5,8 +5,9 @@ TG机器人接定制，web端、pc端（授权验机码）等等 联系qq：2430
 TG机器人接定制，web端、pc端（授权验机码）等等 联系qq：2430502300 备注需求 否则不通过
 
 扫码备注 程序定制
-<img src="https://github.com/user-attachments/assets/e13a93a1-dfa9-4366-989e-5b0327511d8b/693bb9374c124f95713c3f39f276a13" alt="My Image" style="width: 100px; height: 50px;">
+<img src="https://github.com/user-attachments/assets/b8c89878-e0a5-44b1-a554-835d86b84801" alt="My Image" style="width: 100px; height: 50px;">
 
+![693bb9374c124f95713c3f39f276a13](https://github.com/user-attachments/assets/b8c89878-e0a5-44b1-a554-835d86b84801)
 
 
 图片展示
